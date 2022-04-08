@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "bootstrap": "^4.5.0",
-    "canvas": "^2.6.1",
+    "canvas": "^2.9.0",
     "css-loader": "^3.4.2",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",

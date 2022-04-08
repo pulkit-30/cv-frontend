@@ -8,7 +8,18 @@ import simulationArea from '../simulationArea';
 import backgroundArea from '../backgroundArea';
 import { findDimensions } from '../canvasApi';
 import { projectSavedSet } from './project';
+import promptDialog from '../dialog/promptDialog';
 
+var projectName = undefined;
+
+/**
+ * Function to set the name of project.
+ * @param {string} name - name for project
+ * @category data
+ */
+ export function getProjectName() {
+    return projectName;
+}
 /**
  * Function to set the name of project.
  * @param {string} name - name for project
@@ -252,8 +263,37 @@ function generateImageForOnline() {
  * @exports save
  */
 export default function save() {
-    projectSavedSet(true);
     $('.loadingIcon').fadeIn();
+    const projectName = getProjectName();
+    if (!projectName) {
+        $('.loadingIcon').fadeOut();
+        promptDialog('Enter Project Name', 'Untitled');
+        $('#promptDialog').dialog({
+            buttons: [{
+                text: 'cancel',
+                click() {
+                    // to close the dialog
+                    $('#promptDialog').dialog('close');
+                },
+            },
+            {
+                text: 'confirm',
+                click() {
+                    const name = stripTags($('#promptInput').val());
+                    if (name) {
+                        console.log(name);
+                        setProjectName(name);
+                        save();
+                    }
+                    // to close the dialog
+                    $('#promptDialog').dialog('close');
+                },
+            }],
+        });
+        return;
+    }
+    projectSavedSet(true);
+
     const data = generateSaveData();
     $('.loadingIcon').fadeOut();
     if (isElectron()) {

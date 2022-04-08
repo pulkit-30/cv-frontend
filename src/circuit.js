@@ -27,7 +27,9 @@ import { toggleLayoutMode, layoutModeGet } from './layoutMode';
 import { setProjectName } from './data/save';
 import { changeClockEnable } from './sequential';
 import { changeInputSize } from './modules';
-import isElectron from 'is-electron';
+// import isElectron from 'is-electron';
+import promptDialog from "./dialog/promptDialog"
+import { alertDialog } from './dialog/alertDialog';
 
 export const circuitProperty = {
     toggleLayoutMode,
@@ -103,7 +105,7 @@ function deleteCurrentCircuit(scopeId = globalScope.id) {
     }
     if (dependencies) {
         dependencies = `\nThe following circuits are depending on '${scope.name}': ${dependencies}\nDelete subcircuits of ${scope.name} before trying to delete ${scope.name}`;
-        alert(dependencies);
+        alertDialog(dependencies);
         return;
     }
 
@@ -115,6 +117,37 @@ function deleteCurrentCircuit(scopeId = globalScope.id) {
         showMessage('Circuit was successfully deleted');
     } else { showMessage('Circuit was not deleted'); }
 }
+/**
+ * Wrapper function around newCircuit to be called from + button on UI
+ */
+ export function createNewCircuitScope() {
+    promptDialog('Enter circuit name:', 'Untitled-Circuit');
+    $('#promptDialog').dialog({
+        buttons: [
+            {
+                text: 'cancel',
+                click() {
+                    // to close the dialog
+                    $('#promptDialog').dialog('close');
+                },
+            },
+            {
+                text: 'confirm',
+                click() {
+                    const name = stripTags($('#promptInput').val());
+                    newCircuit(name);
+                    // if (!embed) {
+                    //     showProperties(simulationArea.lastSelected);
+                    //     updateTestbenchUI();
+                    //     plotArea.reset();
+                    // }
+                    // to close the dialog
+                    $('#promptDialog').dialog('close');
+                },
+            },
+        ],
+    });
+}
 
 /**
  * Function to create new circuit
@@ -124,11 +157,6 @@ function deleteCurrentCircuit(scopeId = globalScope.id) {
  * @category circuit
  */
 export function newCircuit(name, id) {
-    if (!name && isElectron()){
-        // temporary till  we get a modal to input name
-        name = "sub" + Math.floor(Math.random() * 10000)
-    }
-    name = name || prompt('Enter circuit name:');
     name = stripTags(name);
     if (!name) return;
     const scope = new Scope(name);

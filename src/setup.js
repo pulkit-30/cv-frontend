@@ -15,6 +15,7 @@ import './embed';
 import { newCircuit } from './circuit';
 import load from './data/load';
 import save from './data/save';
+import { alertDialog } from './dialog/alertDialog';
 
 window.width = undefined;
 window.height = undefined;
@@ -155,7 +156,7 @@ export function setup() {
                     $('.loadingIcon').fadeOut();
                 },
                 failure() {
-                    alert('Error: could not load ');
+                    alertDialog('Error: could not load ');
                     $('.loadingIcon').fadeOut();
                 },
             });

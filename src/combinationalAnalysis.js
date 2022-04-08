@@ -9,6 +9,7 @@ import Output from './modules/Output';
 import AndGate from './modules/AndGate';
 import OrGate from './modules/OrGate';
 import NotGate from './modules/NotGate';
+import { alertDialog } from './dialog/alertDialog';
 
 const inputSample = 5;
 const dataSample = [['01---', '11110', '01---', '00000'], ['01110', '1-1-1', '----0'], ['01---', '11110', '01110', '1-1-1', '0---0'], ['----1']];
@@ -44,7 +45,7 @@ export function createCombinationalAnalysisPrompt(scope = globalScope) {
                         $(this).dialog('close');
                         createBooleanPrompt(inputList, outputList, scope);
                     } else {
-                        alert('Enter Input / Output Variable(s) !');
+                        alertDialog('Enter Input / Output Variable(s) !');
                     }
                 },
             },

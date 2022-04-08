@@ -942,3 +942,42 @@ div.icon img {
 }
 
 /* LOADING ICON CSS ENDS*/
+.ui-dialog[aria-describedby="promptDialog"] {
+    min-width: 500px;
+    user-select: none;
+}
+.promptDialogBox{
+    color: white;
+}
+.promptDialogBox input{
+    background: none;
+    color: white !important;
+    border: 1px solid black;
+    width: 90%;
+    height: 25px;
+    padding: 4px;
+    color: white;
+    outline: none;
+    margin: 5px auto;
+}
+
+
+.ui-dialog[aria-describedby="alertDialog"] {
+    min-width: 500px;
+    user-select: none;
+    color: white !important;
+}
+
+.alertDialogBox{
+    color: white !important;
+}
+
+.code-window .CodeMirror {
+  height: calc(100% - 78px);
+  overflow: scroll;
+}
+
+.code-window-embed .CodeMirror {
+  height: 100%;
+  overflow: scroll;
+}
